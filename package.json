@@ -1,0 +1,21 @@
+{
+  "name": "three-item",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.139.2",
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@types/three": "^0.139.0",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.2",
+    "vue-tsc": "^0.29.8"
+  }
+}
