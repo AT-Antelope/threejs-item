@@ -1,10 +1,4 @@
 import {
-  AmbientLight,
-  AxesHelper,
-  BoxBufferGeometry,
-  GridHelper,
-  Mesh,
-  MeshStandardMaterial,
   MOUSE,
   Object3D,
   PerspectiveCamera,
@@ -30,6 +24,13 @@ export class TEngine {
     this.renderer = new WebGLRenderer({
       antialias: true,
     });
+    /**
+     * 产生阴影
+     * 1.允许渲染阴影
+     * 2.产生阴影，被照射物品、光源(照射范围内)
+     * 3.接收阴影，接收阴影的物品
+     */
+    this.renderer.shadowMap.enabled = true;
 
     this.renderer.setSize(dom.offsetWidth, dom.offsetHeight, true);
     this.scene = new Scene();
@@ -41,28 +42,11 @@ export class TEngine {
     );
 
     // 视角位置
-    this.camera.position.set(20, 20, 20);
+    this.camera.position.set(40, 40, 40);
     // 视角朝向
     this.camera.lookAt(new Vector3(0, 0, 0));
     // 视角旋转
     this.camera.up = new Vector3(0, 1, 0);
-
-    // 环境光
-    const ambientLight = new AmbientLight("rgb(255,255,255)", 1);
-
-    // 轴线
-    const axesHelper = new AxesHelper(500);
-    // 网格
-    const gridHelper = new GridHelper(
-      500,
-      20,
-      "rgb(100,100,100)",
-      "rgb(50,50,50)"
-    );
-
-    this.scene.add(axesHelper);
-    this.scene.add(gridHelper);
-    this.scene.add(ambientLight);
 
     // 性能监视器，three用function的方式封装，所以不能使用new创建，直接使用
     const stats = Stats();
@@ -77,7 +61,7 @@ export class TEngine {
       this.camera,
       this.dom
     );
-    orbitControls.autoRotate = true;
+    // orbitControls.autoRotate = true;
     // 阻尼，惯性效果
     orbitControls.enableDamping = true;
     // 自定义鼠标按钮效果，取消左键

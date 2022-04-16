@@ -10,34 +10,28 @@ import {
 export const basicObjectList: Object3D[] = [];
 
 /**
- * 正方体
+ * 地面
+ */
+const stage: Mesh = new Mesh(
+  new BoxBufferGeometry(200, 10, 200),
+  new MeshStandardMaterial({ color: "rgb(150,150,150)" })
+);
+stage.position.y = -5;
+stage.castShadow = true;
+stage.receiveShadow = true;
+
+/**
+ * 立方体
  */
 const box: Mesh = new Mesh(
   new BoxBufferGeometry(10, 10, 10),
-  new MeshStandardMaterial({ color: "rgb(255,0,0)" })
+  new MeshStandardMaterial({ color: "aqua" })
 );
-box.position.x = -10;
-
-/**
- * 球
- */
-const sphere: Mesh = new Mesh(
-  new SphereGeometry(5),
-  new MeshStandardMaterial({ color: "rgb(0,255,0)" })
-);
-sphere.position.z = -10;
-
-/**
- * 圆柱体
- */
-const cylinder: Mesh = new Mesh(
-  new CylinderBufferGeometry(5, 5, 10, 3, 5),
-  new MeshStandardMaterial({ color: "rgb(0,0,255)" })
-);
-cylinder.position.z = 10;
+box.position.y = 5;
+box.castShadow = true;
 
 /**
  * ---------------------------------------------------------
  * 填充object数组
  */
-basicObjectList.push(box, sphere, cylinder);
+basicObjectList.push(stage, box);
