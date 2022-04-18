@@ -1,4 +1,5 @@
 import { AmbientLight, Color, Object3D, PointLight, SpotLight } from "three";
+import { bgWall } from "./TBasicObject";
 
 export const lightList: Object3D[] = [];
 
@@ -19,13 +20,16 @@ export const spotLight: SpotLight = new SpotLight(
   "rgb(255,255,255)",
   1,
   200,
-  (Math.PI / 180) * 30
+  (Math.PI / 180) * 30,
+  1,
+  1
 );
-spotLight.position.set(-50, 50, -50);
 spotLight.castShadow = true;
+spotLight.position.set(0, 20, 100);
+spotLight.target = bgWall;
 
 /**
  * ----------------------------------------------------------------
  * 填充光源数组
  */
-lightList.push(ambientLight, pointLight, spotLight);
+lightList.push(ambientLight, spotLight);

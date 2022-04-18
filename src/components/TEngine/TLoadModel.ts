@@ -16,7 +16,6 @@ const objLoader: OBJLoader = new OBJLoader();
  */
 // 异步，返回一个promise
 export const getFrame = async (): Promise<Mesh | null> => {
-  // const group = await objLoader.loadAsync("/photoFrame/Bilderrahmen_27x32.obj");
   const group = await objLoader.loadAsync("/photoFrame.obj");
 
   // 如果加载失败，打印错误信息，并中断
@@ -40,8 +39,8 @@ export const getFrame = async (): Promise<Mesh | null> => {
 
   frame.scale.set(0.065, 0.065, 0.065);
   frame.rotateY((Math.PI / 180) * -90);
-  frame.position.z = -0.5;
-  frame.position.y = 10;
+  frame.position.z = -45;
+  frame.position.y = 20;
 
   return frame;
 };

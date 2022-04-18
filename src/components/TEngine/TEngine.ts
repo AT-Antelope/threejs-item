@@ -42,7 +42,7 @@ export class TEngine {
     );
 
     // 视角位置
-    this.camera.position.set(40, 40, 40);
+    this.camera.position.set(40, 100, 100);
     // 视角朝向
     this.camera.lookAt(new Vector3(0, 0, 0));
     // 视角旋转
@@ -79,7 +79,7 @@ export class TEngine {
       // this.renderer.setClearColor("rgb(255,255,255)");
       // this.renderer.clearColor();
 
-      // 更新轨道控制器
+      // 更新轨道控制器，鼠标控制
       orbitControls.update();
 
       // 渲染画面
