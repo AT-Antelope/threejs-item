@@ -91,7 +91,7 @@ export class TEngine {
       // 回调渲染
       requestAnimationFrame(renderFunc);
 
-      console.log("rendered");
+      // console.log("rendered");
     };
 
     renderFunc();
