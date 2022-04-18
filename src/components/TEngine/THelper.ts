@@ -37,4 +37,4 @@ const spotLightHelper: SpotLightHelper = new SpotLightHelper(
  * -----------------------------------------------------------------------------------
  * 填充辅助数组
  */
-helperList.push(axesHelper, gridHelper, spotLightHelper);
+helperList.push(axesHelper, gridHelper);

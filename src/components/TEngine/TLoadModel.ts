@@ -11,12 +11,11 @@ const objLoader: OBJLoader = new OBJLoader();
 /**
  * 相框
  * 材质:
- * displacementMap 位移贴图，按顶点计算，会影响顶点的移动，导致有缝隙
+ * displacementMap 位移贴图，按顶点计算，会影响顶点的移动，会导致各面之间出现缝隙
  * bumpMap  凹凸贴图，不影响顶点的实际位移
  */
 // 异步，返回一个promise
 export const getFrame = async (): Promise<Mesh | null> => {
-  // const group = await objLoader.loadAsync("/photoFrame/Bilderrahmen_27x32.obj");
   const group = await objLoader.loadAsync("/photoFrame.obj");
 
   // 如果加载失败，打印错误信息，并中断
@@ -40,8 +39,8 @@ export const getFrame = async (): Promise<Mesh | null> => {
 
   frame.scale.set(0.065, 0.065, 0.065);
   frame.rotateY((Math.PI / 180) * -90);
-  frame.position.z = -0.5;
-  frame.position.y = 10;
+  frame.position.z = -44;
+  frame.position.y = 20;
 
   return frame;
 };

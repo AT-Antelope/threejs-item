@@ -9,7 +9,7 @@ const textureLoader: TextureLoader = new TextureLoader();
  * 图片
  * TIP '/'默认指向public文件夹
  */
-export const pictureTexture: Texture = textureLoader.load("/2.jpg");
+export const pictureTexture: Texture = textureLoader.load("/0.jpg");
 
 /**
  * 木板
