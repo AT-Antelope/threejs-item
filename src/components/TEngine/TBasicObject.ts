@@ -5,7 +5,7 @@ import {
   SphereGeometry,
   CylinderBufferGeometry,
   Object3D,
-  pictureBufferGeometry,
+  PlaneBufferGeometry,
 } from "three";
 import { pictureTexture } from "./TTexture";
 
@@ -51,11 +51,11 @@ box.position.y = 5;
  * 贴图
  */
 const picture: Mesh = new Mesh(
-  new pictureBufferGeometry(192, 108),
+  new PlaneBufferGeometry(192, 108),
   new MeshStandardMaterial({ map: pictureTexture })
 );
 picture.position.y = 20;
-picture.position.z = -44.6
+picture.position.z = -43.6;
 picture.scale.set(0.1, 0.1, 0.1);
 
 /**
