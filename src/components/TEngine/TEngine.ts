@@ -92,10 +92,29 @@ export class TEngine {
     );
     scene.add(transformControls);
 
+    document.addEventListener("keyup", (eve) => {
+      if (eve.key == "t") {
+        transformControls.mode = "translate";
+        return false;
+      } else if (eve.key == "r") {
+        transformControls.mode = "rotate";
+        return false;
+      } else if (eve.key == "s") {
+        transformControls.mode = "scale";
+        return false;
+      }
+    });
+
     /**
      *  初始化射线发射器(拾取器)
      */
     const raycaster = new Raycaster();
+
+    /**
+     * 缓存当前指向物体，用于物品的指向激活状态
+     * 在renderer.doElement的mousemove事件里被 射线发射器 赋值，拾取到的第一个物品
+     */
+    let cacheObject: Object3D | null = null;
 
     /**
      * 给renderer的canvas对象添加鼠标事件
@@ -114,6 +133,47 @@ export class TEngine {
       mouse.x = (x / width) * 2 - 1;
       // mouse.y = (height / 2 - y) / height / 2;
       mouse.y = (-y * 2) / height + 1;
+
+      /**
+       * TIP IMPORTANT
+       * 实现物品的指向激活状态
+       * 实现方式: 手动判断当前状态，进行事件匹配
+       * 原理: 光标进入范围后，只会不断触发mouseenter(相当于原mousemove的效果)，只需要定义一个flag，第一次进入时设为true，之后再次触发都手动匹配为mousemove，离开时手动匹配为mouseleave
+       */
+      raycaster.setFromCamera(mouse, this.camera);
+
+      scene.remove(transformControls);
+      // 射线穿过的物体可能有多个，组成一个数组
+      const intersection = raycaster.intersectObjects(scene.children, false);
+      scene.add(transformControls);
+
+      // 拾取到有物体
+      if (intersection.length) {
+        const object = intersection[0].object;
+
+        // 新旧物体不一样，进入新物体
+        if (object !== cacheObject) {
+          // 存在旧物体，不是第一次进入
+          if (cacheObject) {
+            // 不是同个物体，先触发离开事件
+            cacheObject.dispatchEvent({ type: "mouseleave" });
+          }
+          // 同个物体
+          object.dispatchEvent({ type: "mouseenter" });
+        } else if (object === cacheObject) {
+          // 在同一个物体中移动
+          object.dispatchEvent({ type: "mousemove" });
+        }
+        // 缓存当前物体
+        cacheObject = object;
+      } else {
+        // 没拾取到物体，移动到空白区域
+        if (cacheObject) {
+          // 触发离开事件
+          cacheObject.dispatchEvent({ type: "mouseleave" });
+        }
+        cacheObject = null;
+      }
     });
 
     /**

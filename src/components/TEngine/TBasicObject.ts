@@ -6,6 +6,7 @@ import {
   CylinderBufferGeometry,
   Object3D,
   PlaneBufferGeometry,
+  Color,
 } from "three";
 import { pictureTexture } from "./TTexture";
 
@@ -32,9 +33,20 @@ export const bgWall: Mesh = new Mesh(
 bgWall.receiveShadow = true;
 bgWall.position.z = -48;
 bgWall.position.y = 20;
+
 // 更新矩阵和世界矩阵，否则辅助线等，一直指向原点
 bgWall.updateMatrix();
 bgWall.updateMatrixWorld();
+
+// 实现指向激活状态，改变颜色
+// 储存当前色
+const bgWallCurrentColor = (bgWall.material as MeshStandardMaterial).color;
+bgWall.addEventListener("mouseenter", () => {
+  (bgWall.material as MeshStandardMaterial).color = new Color("aqua");
+});
+bgWall.addEventListener("mouseleave", () => {
+  (bgWall.material as MeshStandardMaterial).color = bgWallCurrentColor;
+});
 
 /**
  * 立方体
