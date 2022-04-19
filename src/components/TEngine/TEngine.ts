@@ -92,6 +92,19 @@ export class TEngine {
     );
     scene.add(transformControls);
 
+    document.addEventListener("keyup", (eve) => {
+      if (eve.key == "t") {
+        transformControls.mode = "translate";
+        return false;
+      } else if (eve.key == "r") {
+        transformControls.mode = "rotate";
+        return false;
+      } else if (eve.key == "s") {
+        transformControls.mode = "scale";
+        return false;
+      }
+    });
+
     /**
      *  初始化射线发射器(拾取器)
      */
