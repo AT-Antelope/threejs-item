@@ -84,7 +84,7 @@ export class TEngine {
     };
 
     /**
-     *  初始化 变换控制器
+     *  初始化 变换控制器，也属于一个物体
      */
     const transformControls: TransformControls = new TransformControls(
       this.camera,
@@ -118,7 +118,7 @@ export class TEngine {
 
     /**
      * TIP IMPORTANT
-     * 问题: 第一次触发完click选中一样东西，第二次mouseDown按住拖动控件，mouseUp松开后会再次触发click事件(选中其他东西，导致第二次拖动失效)
+     * 问题1: 第一次触发完click选中一样东西，第二次mouseDown按住拖动控件，mouseUp松开后会再次触发click事件(选中其他东西，导致第二次拖动失效)
      * 想法: 采用按钮的方式改变状态值，或根据flag标记判断行为
      * 解决: 采用flag标记当前状态，mouseDown按下时标记true，在click内做判断，松开时再次触发click，如果flag为true则return返回，不再继续执行
      */
@@ -126,21 +126,27 @@ export class TEngine {
     let transformFlag = false;
     transformControls.addEventListener("mouseDown", (eve) => {
       transformFlag = true;
-      console.log("mouseDown", transformFlag);
     });
     // 拾取物品
     renderer.domElement.addEventListener("click", (eve) => {
       // 变换状态中，则还原变换状态为false，并中断
       if (transformFlag) {
-        console.log("before", transformFlag);
         transformFlag = false;
-        console.log("after", transformFlag);
         return;
       }
 
       raycaster.setFromCamera(mouse, this.camera);
+
+      /**
+       * TIP IMPORTANT
+       * 问题2: 拖动一次后，变换控制器 会卡住，无法再次选中其他物品(类似被 变换控制器 挡住，换个视角可以正常拾取)
+       * 原因: 变换控制器 也是个物体，包括其他看不到的东西，再次拾取物品时，会选中 变换控制器 上的东西，导致无法再次选中其他物品
+       * 解决: 每次拾取前移除 变换控制器，拾取后重新添加，避免 射线发射器 拾取到变换控制器
+       */
+      scene.remove(transformControls);
       // 射线穿过的物体可能有多个，组成一个数组
-      const intersection = raycaster.intersectObjects(scene.children);
+      const intersection = raycaster.intersectObjects(scene.children, false);
+      scene.add(transformControls);
 
       if (!intersection.length) return;
 
